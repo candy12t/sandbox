@@ -58,7 +58,7 @@ TODO: attr_accessorの実装
 
 以下のようにクラスメソッドを定義することでクラスに対してメソッドを呼び出すことができる。
 
-```
+```ruby
 class Hoge
   def self.fizz
     :fizz
@@ -69,7 +69,7 @@ Hoge.fizz # => :fizz
 
 または、
 
-```
+```ruby
 class Hoge
   class << self
     def fizz
@@ -79,6 +79,21 @@ class Hoge
 end
 Hoge.fizz # => :fizz
 ```
+
+- クラスはClassクラスのインスタンス
+- 特異クラス
+
+- class定義内のself
+  - インスタンスメソッドの定義箇所内: インスタンスオブジェクト -> `#<Hoge:0x00007fc199909450>` == `#<#<Class:0x00007fcb0b8d5918>:0x00007fc199909450>`
+  - ↑以外のクラス定義式内やクラスメソッドの定義式内: クラスオブジェクト -> `Hoge` == `#<Class:0x00007fcb0b8d5918>`
+- クラスメソッドの定義 -> `def self.メソッド名` -> `def クラスオブジェクト.メソッド名` == 特異メソッド
+- クラスメソッドはクラスオブジェクトに定義された特異クラス -> クラス定義外でも定義可能
+- 特異メソッドはClassオブジェクトの特異クラスに定義される
+- 特異クラスの親クラスはオブジェクト
+- 特異クラスは特異クラスからオブジェクトやサブクラスを作成できない
+- 関係は`obj -> objの特異クラス -> OriginalClass`
+- 数値やSymbol、true、false、nilは特異クラスを持てない
+- Moduleをextendすると`obj -> objの特異クラス -> ExtendedModule -> OriginalClass`となる
 
 ## 2. Rubyの基礎
 ## 3. 制御構造/メソッド/組み込み関数
