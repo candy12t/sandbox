@@ -1,0 +1,95 @@
+{
+  "main": {
+    "id": "ebf982d8770bd2e1",
+    "type": "split",
+    "children": [
+      {
+        "id": "472f16a00f7a6738",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "perfect_ruby/README.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4944d3425ed8b021",
+    "type": "split",
+    "children": [
+      {
+        "id": "c4d72eab1a70ef7a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bf155b1a61087586",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "a3e9bda4b902099a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "4e9ac915143fa5bb",
+    "type": "split",
+    "children": [
+      {
+        "id": "f57fba2b83085c4d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b9bfde1ae0461b42",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "perfect_ruby/README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "472f16a00f7a6738",
+  "lastOpenFiles": [
+    "perfect_ruby/README.md"
+  ]
+}
