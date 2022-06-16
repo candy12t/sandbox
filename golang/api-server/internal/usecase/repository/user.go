@@ -7,4 +7,5 @@ type User interface {
 	FindById(id int) (*entity.User, error)
 	FindAll() ([]*entity.User, error)
 	Update(user *entity.User) (*entity.User, error)
+	Delete(user *entity.User) error
 }

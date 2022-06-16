@@ -9,4 +9,5 @@ type User interface {
 	GetUser(id int) (*form.OutputUser, error)
 	GetUsers() ([]*form.OutputUser, error)
 	UpdateUser(*form.UpdateUserParams) (*form.OutputUser, error)
+	DeleteUser(id int) error
 }

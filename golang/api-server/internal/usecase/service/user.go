@@ -56,3 +56,12 @@ func (uu *UserUsecase) UpdateUser(f *form.UpdateUserParams) (*form.OutputUser, e
 	}
 	return form.NewOutputUser(result), nil
 }
+
+func (uu *UserUsecase) DeleteUser(id int) error {
+	user, err := uu.userRepository.FindById(id)
+	if err != nil {
+		return err
+	}
+	deletedUser := user.DeleteUser()
+	return uu.userRepository.Delete(deletedUser)
+}

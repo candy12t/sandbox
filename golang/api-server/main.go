@@ -19,6 +19,8 @@ func main() {
 	userGroup.POST("", userHandler.CreateUser)
 	userGroup.GET(":id", userHandler.GetUser)
 	userGroup.GET("", userHandler.GetUsers)
+	userGroup.PUT(":id", userHandler.UpdateUser)
+	userGroup.DELETE(":id", userHandler.DeleteUser)
 
 	server.ListenAndServe(r)
 }
