@@ -19,27 +19,27 @@ func NewUserUsecase(userRepository repository.User) usecase.User {
 	}
 }
 
-func (uu *UserUsecase) CreateUser(f *form.CreateUserInputData) (*form.UserOutputData, error) {
+func (uu *UserUsecase) CreateUser(f *form.CreateUserInputData) (*form.OutputUser, error) {
 	user := entity.NewUser(f.Name)
 	result, err := uu.userRepository.Save(user)
 	if err != nil {
 		return nil, err
 	}
-	return form.NewCreateUserOutputData(result), nil
+	return form.NewOutputUser(result), nil
 }
 
-func (uu *UserUsecase) GetUser(id int) (*form.UserOutputData, error) {
+func (uu *UserUsecase) GetUser(id int) (*form.OutputUser, error) {
 	user, err := uu.userRepository.FindById(id)
 	if err != nil {
 		return nil, err
 	}
-	return form.NewCreateUserOutputData(user), nil
+	return form.NewOutputUser(user), nil
 }
 
-func (uu *UserUsecase) GetUsers() ([]*form.UserOutputData, error) {
+func (uu *UserUsecase) GetUsers() ([]*form.OutputUser, error) {
 	users, err := uu.userRepository.FindAll()
 	if err != nil {
 		return nil, err
 	}
-	return form.NewUsers(users), nil
+	return form.NewOutputUsers(users), nil
 }

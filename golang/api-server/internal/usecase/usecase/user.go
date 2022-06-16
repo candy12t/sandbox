@@ -5,7 +5,7 @@ import (
 )
 
 type User interface {
-	CreateUser(*form.CreateUserInputData) (*form.UserOutputData, error)
-	GetUser(id int) (*form.UserOutputData, error)
-	GetUsers() ([]*form.UserOutputData, error)
+	CreateUser(*form.CreateUserInputData) (*form.OutputUser, error)
+	GetUser(id int) (*form.OutputUser, error)
+	GetUsers() ([]*form.OutputUser, error)
 }
