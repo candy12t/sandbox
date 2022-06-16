@@ -43,3 +43,16 @@ func (uu *UserUsecase) GetUsers() ([]*form.OutputUser, error) {
 	}
 	return form.NewOutputUsers(users), nil
 }
+
+func (uu *UserUsecase) UpdateUser(f *form.UpdateUserParams) (*form.OutputUser, error) {
+	user, err := uu.userRepository.FindById(f.ID)
+	if err != nil {
+		return nil, err
+	}
+	updatedUser := user.UpdateUser(f.Name)
+	result, err := uu.userRepository.Update(updatedUser)
+	if err != nil {
+		return nil, err
+	}
+	return form.NewOutputUser(result), nil
+}

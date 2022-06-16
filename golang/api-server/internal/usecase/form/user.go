@@ -10,6 +10,11 @@ type CreateUserInputData struct {
 	Name string `json:"name" binding:"required"`
 }
 
+type UpdateUserParams struct {
+	ID   int    `json:"id" binding:"required"`
+	Name string `json:"name" binding:"required"`
+}
+
 type OutputUser struct {
 	ID        int       `json:"id"`
 	Name      string    `json:"name"`

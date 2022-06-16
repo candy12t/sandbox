@@ -17,3 +17,10 @@ func NewUser(name string) *User {
 		UpdatedAt: timeNow,
 	}
 }
+
+func (u *User) UpdateUser(name string) *User {
+	timeNow := time.Now()
+	u.Name = name
+	u.UpdatedAt = timeNow
+	return u
+}

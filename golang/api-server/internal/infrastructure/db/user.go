@@ -42,3 +42,12 @@ func (ur *UserRepository) FindAll() ([]*entity.User, error) {
 	}
 	return cacheUsers, nil
 }
+
+func (ur *UserRepository) Update(user *entity.User) (*entity.User, error) {
+	for _, u := range cacheUsers {
+		if u.ID == user.ID {
+			u = user
+		}
+	}
+	return user, nil
+}

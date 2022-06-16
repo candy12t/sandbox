@@ -58,3 +58,25 @@ func (u *User) GetUsers(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, users)
 }
+
+func (u *User) UpdateUser(c *gin.Context) {
+	idString := c.Param("id")
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	f := &form.UpdateUserParams{ID: id}
+	if err := c.ShouldBindJSON(f); err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	user, err := u.userUsecase.UpdateUser(f)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "update user is success!!", "result": user})
+}
