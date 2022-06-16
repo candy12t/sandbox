@@ -25,3 +25,12 @@ func NewCreateUserOutputData(user *entity.User) *UserOutputData {
 		UpdatedAt: user.UpdatedAt,
 	}
 }
+
+func NewUsers(users []*entity.User) []*UserOutputData {
+	outputUsers := make([]*UserOutputData, 0, len(users))
+	for _, user := range users {
+		u := NewCreateUserOutputData(user)
+		outputUsers = append(outputUsers, u)
+	}
+	return outputUsers
+}

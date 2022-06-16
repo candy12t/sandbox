@@ -49,3 +49,12 @@ func (u *User) GetUser(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, user)
 }
+
+func (u *User) GetUsers(c *gin.Context) {
+	users, err := u.userUsecase.GetUsers()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+	c.JSON(http.StatusOK, users)
+}

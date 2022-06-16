@@ -35,3 +35,11 @@ func (uu *UserUsecase) GetUser(id int) (*form.UserOutputData, error) {
 	}
 	return form.NewCreateUserOutputData(user), nil
 }
+
+func (uu *UserUsecase) GetUsers() ([]*form.UserOutputData, error) {
+	users, err := uu.userRepository.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return form.NewUsers(users), nil
+}

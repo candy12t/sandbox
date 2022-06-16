@@ -35,3 +35,10 @@ func (ur *UserRepository) FindById(id int) (*entity.User, error) {
 	}
 	return nil, fmt.Errorf("Not fount user by: %v", id)
 }
+
+func (ur *UserRepository) FindAll() ([]*entity.User, error) {
+	if len(cacheUsers) == 0 {
+		return nil, fmt.Errorf("Not created users")
+	}
+	return cacheUsers, nil
+}
