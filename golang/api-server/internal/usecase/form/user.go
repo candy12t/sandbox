@@ -6,7 +6,7 @@ import (
 	"github.com/candy12t/api-server/internal/domain/entity"
 )
 
-type CreateUserInputData struct {
+type CreateUserParams struct {
 	Name string `json:"name" binding:"required"`
 }
 

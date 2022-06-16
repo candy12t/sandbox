@@ -20,7 +20,7 @@ func NewUser(userUsecase usecase.User) *User {
 }
 
 func (u *User) CreateUser(c *gin.Context) {
-	f := new(form.CreateUserInputData)
+	f := new(form.CreateUserParams)
 	if err := c.ShouldBindJSON(f); err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return

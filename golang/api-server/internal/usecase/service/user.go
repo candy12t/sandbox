@@ -19,7 +19,7 @@ func NewUserUsecase(userRepository repository.User) usecase.User {
 	}
 }
 
-func (uu *UserUsecase) CreateUser(f *form.CreateUserInputData) (*form.OutputUser, error) {
+func (uu *UserUsecase) CreateUser(f *form.CreateUserParams) (*form.OutputUser, error) {
 	user := entity.NewUser(f.Name)
 	result, err := uu.userRepository.Save(user)
 	if err != nil {
