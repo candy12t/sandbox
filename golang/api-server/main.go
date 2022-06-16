@@ -17,6 +17,7 @@ func main() {
 
 	userGroup := r.Group("/users")
 	userGroup.POST("", userHandler.CreateUser)
+	userGroup.GET(":id", userHandler.GetUser)
 
 	server.ListenAndServe(r)
 }

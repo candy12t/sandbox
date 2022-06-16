@@ -10,15 +10,15 @@ type CreateUserInputData struct {
 	Name string `json:"name" binding:"required"`
 }
 
-type CreateUserOutputData struct {
+type UserOutputData struct {
 	ID        int       `json:"id"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func NewCreateUserOutputData(user *entity.User) *CreateUserOutputData {
-	return &CreateUserOutputData{
+func NewCreateUserOutputData(user *entity.User) *UserOutputData {
+	return &UserOutputData{
 		ID:        user.ID,
 		Name:      user.Name,
 		CreatedAt: user.CreatedAt,

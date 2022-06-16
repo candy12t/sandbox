@@ -1,6 +1,8 @@
 package db
 
 import (
+	"fmt"
+
 	"github.com/candy12t/api-server/internal/domain/entity"
 	"github.com/candy12t/api-server/internal/usecase/repository"
 )
@@ -23,4 +25,13 @@ func (ur *UserRepository) Save(user *entity.User) (*entity.User, error) {
 	user.ID = id
 	cacheUsers = append(cacheUsers, user)
 	return user, nil
+}
+
+func (ur *UserRepository) FindById(id int) (*entity.User, error) {
+	for _, user := range cacheUsers {
+		if user.ID == id {
+			return user, nil
+		}
+	}
+	return nil, fmt.Errorf("Not fount user by: %v", id)
 }
