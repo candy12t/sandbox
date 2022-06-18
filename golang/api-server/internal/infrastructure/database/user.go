@@ -14,10 +14,6 @@ type UserRepository struct {
 
 var _ repository.User = &UserRepository{}
 
-var cacheUsers []*entity.User
-
-var id int
-
 func NewUserRepository(db *sql.DB) repository.User {
 	return &UserRepository{
 		db: db,
@@ -25,15 +21,21 @@ func NewUserRepository(db *sql.DB) repository.User {
 }
 
 func (ur *UserRepository) Save(user *entity.User) (*entity.User, error) {
-	id++
-	user.ID = id
-	cacheUsers = append(cacheUsers, user)
-	return user, nil
+	result, err := ur.db.Exec("INSERT INTO users (name) VALUES (?)", user.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	return ur.FindById(int(id))
 }
 
 func (ur *UserRepository) FindById(id int) (*entity.User, error) {
 	var user entity.User
-	err := ur.db.QueryRow("SELECT * FROM users WHERE id = ?", id).Scan(&user.ID, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.DeleteMark)
+	err := ur.db.QueryRow("SELECT * FROM users WHERE id = ? AND delete_mark = 0", id).Scan(&user.ID, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.DeleteMark)
 	if err == sql.ErrNoRows {
 		return nil, fmt.Errorf("Not found user by %v", id)
 	}
@@ -42,7 +44,7 @@ func (ur *UserRepository) FindById(id int) (*entity.User, error) {
 
 func (ur *UserRepository) FindAll() ([]*entity.User, error) {
 	var users []*entity.User
-	rows, err := ur.db.Query("SELECT * FROM users")
+	rows, err := ur.db.Query("SELECT * FROM users WHERE delete_mark = 0")
 	if err != nil {
 		return nil, err
 	}
@@ -62,19 +64,17 @@ func (ur *UserRepository) FindAll() ([]*entity.User, error) {
 }
 
 func (ur *UserRepository) Update(user *entity.User) (*entity.User, error) {
-	for _, u := range cacheUsers {
-		if u.ID == user.ID && !user.DeleteMark {
-			u = user
-		}
+	_, err := ur.db.Exec("UPDATE users SET name = ? WHERE id = ? AND delete_mark = 0", user.Name, user.ID)
+	if err != nil {
+		return nil, err
 	}
-	return user, nil
+	return ur.FindById(user.ID)
 }
 
 func (ur *UserRepository) Delete(user *entity.User) error {
-	for _, u := range cacheUsers {
-		if u.ID == user.ID {
-			u = user
-		}
+	_, err := ur.db.Exec("UPDATE users SET delete_mark = ? WHERE id = ?", user.DeleteMark, user.ID)
+	if err != nil {
+		return err
 	}
 	return nil
 }

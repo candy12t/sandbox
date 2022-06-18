@@ -20,7 +20,9 @@ func NewUserUsecase(userRepository repository.User) usecase.User {
 }
 
 func (uu *UserUsecase) CreateUser(f *form.CreateUserParams) (*form.OutputUser, error) {
-	user := entity.NewUser(f.Name)
+	user := &entity.User{
+		Name: f.Name,
+	}
 	result, err := uu.userRepository.Save(user)
 	if err != nil {
 		return nil, err
@@ -45,12 +47,11 @@ func (uu *UserUsecase) GetUsers() ([]*form.OutputUser, error) {
 }
 
 func (uu *UserUsecase) UpdateUser(f *form.UpdateUserParams) (*form.OutputUser, error) {
-	user, err := uu.userRepository.FindById(f.ID)
-	if err != nil {
-		return nil, err
+	user := &entity.User{
+		ID:   f.ID,
+		Name: f.Name,
 	}
-	updatedUser := user.UpdateUser(f.Name)
-	result, err := uu.userRepository.Update(updatedUser)
+	result, err := uu.userRepository.Update(user)
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +59,9 @@ func (uu *UserUsecase) UpdateUser(f *form.UpdateUserParams) (*form.OutputUser, e
 }
 
 func (uu *UserUsecase) DeleteUser(id int) error {
-	user, err := uu.userRepository.FindById(id)
-	if err != nil {
-		return err
+	user := &entity.User{
+		ID:         id,
+		DeleteMark: true,
 	}
-	deletedUser := user.DeleteUser()
-	return uu.userRepository.Delete(deletedUser)
+	return uu.userRepository.Delete(user)
 }
