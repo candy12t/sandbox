@@ -1,6 +1,7 @@
-package db
+package database
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/candy12t/api-server/internal/domain/entity"
@@ -8,6 +9,7 @@ import (
 )
 
 type UserRepository struct {
+	db *sql.DB
 }
 
 var _ repository.User = &UserRepository{}
@@ -16,8 +18,10 @@ var cacheUsers []*entity.User
 
 var id int
 
-func NewUserRepository() repository.User {
-	return &UserRepository{}
+func NewUserRepository(db *sql.DB) repository.User {
+	return &UserRepository{
+		db: db,
+	}
 }
 
 func (ur *UserRepository) Save(user *entity.User) (*entity.User, error) {
@@ -28,32 +32,33 @@ func (ur *UserRepository) Save(user *entity.User) (*entity.User, error) {
 }
 
 func (ur *UserRepository) FindById(id int) (*entity.User, error) {
-	for _, user := range cacheUsers {
-		if user.ID == id && !user.DeleteMark {
-			return user, nil
-		}
+	var user entity.User
+	err := ur.db.QueryRow("SELECT * FROM users WHERE id = ?", id).Scan(&user.ID, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.DeleteMark)
+	if err == sql.ErrNoRows {
+		return nil, fmt.Errorf("Not found user by %v", id)
 	}
-	return nil, fmt.Errorf("Not fount user by: %v", id)
+	return &user, nil
 }
 
 func (ur *UserRepository) FindAll() ([]*entity.User, error) {
-	if len(cacheUsers) == 0 {
-		return nil, fmt.Errorf("Not created users")
+	var users []*entity.User
+	rows, err := ur.db.Query("SELECT * FROM users")
+	if err != nil {
+		return nil, err
 	}
 
-	outputUser := make([]*entity.User, 0, len(cacheUsers))
-	for _, u := range cacheUsers {
-		if u.DeleteMark {
-			continue
+	for rows.Next() {
+		var user entity.User
+		if err := rows.Scan(&user.ID, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.DeleteMark); err != nil {
+			return nil, err
 		}
-		outputUser = append(outputUser, u)
+		users = append(users, &user)
 	}
 
-	if len(outputUser) == 0 {
-		return nil, fmt.Errorf("Not created users")
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
-
-	return outputUser, nil
+	return users, nil
 }
 
 func (ur *UserRepository) Update(user *entity.User) (*entity.User, error) {
