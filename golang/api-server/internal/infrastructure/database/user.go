@@ -35,9 +35,12 @@ func (ur *UserRepository) Save(user *entity.User) (*entity.User, error) {
 
 func (ur *UserRepository) FindById(id int) (*entity.User, error) {
 	var user entity.User
-	err := ur.db.QueryRow("SELECT * FROM users WHERE id = ? AND delete_mark = 0", id).Scan(&user.ID, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.DeleteMark)
-	if err == sql.ErrNoRows {
-		return nil, fmt.Errorf("Not found user by %v", id)
+	row := ur.db.QueryRow("SELECT * FROM users WHERE id = ? AND delete_mark = 0", id)
+	if err := row.Scan(&user.ID, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.DeleteMark); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("Not found user by %v", id)
+		}
+		return nil, err
 	}
 	return &user, nil
 }
