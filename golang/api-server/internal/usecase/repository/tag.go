@@ -1,3 +1,4 @@
+//go:generate mockgen -source=$GOFILE -destination=../mock_$GOPACKAGE/$GOFILE
 package repository
 
 import "github.com/candy12t/api-server/internal/domain/entity"
