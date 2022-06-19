@@ -10,8 +10,24 @@ CREATE TABLE IF NOT EXISTS users (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO users
-  (name)
-VALUES
-  ('Tom'),
-  ('Mike');
+CREATE TABLE IF NOT EXISTS tags (
+  id INT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(128) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  delete_mark BOOLEAN DEFAULT false,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS user_to_tags (
+  id INT AUTO_INCREMENT NOT NULL,
+  user_id INT NOT NULL,
+  tag_id INT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+/* INSERT INTO users */
+/*   (name) */
+/* VALUES */
+/*   ('Tom'), */
+/*   ('Mike'); */
