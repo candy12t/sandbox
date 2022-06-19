@@ -20,17 +20,17 @@ func NewUserRepository(db *sql.DB) repository.User {
 	}
 }
 
-func (ur *UserRepository) Save(user *entity.User) (*entity.User, error) {
+func (ur *UserRepository) Save(user *entity.User) (int, error) {
 	result, err := ur.db.Exec("INSERT INTO users (name) VALUES (?)", user.Name)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	id, err := result.LastInsertId()
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	return ur.FindById(int(id))
+	return int(id), nil
 }
 
 func (ur *UserRepository) FindById(id int) (*entity.User, error) {
@@ -66,12 +66,12 @@ func (ur *UserRepository) FindAll() ([]*entity.User, error) {
 	return users, nil
 }
 
-func (ur *UserRepository) Update(user *entity.User) (*entity.User, error) {
+func (ur *UserRepository) Update(user *entity.User) (int, error) {
 	_, err := ur.db.Exec("UPDATE users SET name = ? WHERE id = ? AND delete_mark = 0", user.Name, user.ID)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	return ur.FindById(user.ID)
+	return user.ID, nil
 }
 
 func (ur *UserRepository) Delete(user *entity.User) error {

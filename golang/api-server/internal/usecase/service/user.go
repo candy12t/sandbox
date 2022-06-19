@@ -23,7 +23,12 @@ func (uu *UserUsecase) CreateUser(f *form.CreateUserParams) (*form.OutputUser, e
 	user := &entity.User{
 		Name: f.Name,
 	}
-	result, err := uu.userRepository.Save(user)
+	id, err := uu.userRepository.Save(user)
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := uu.userRepository.FindById(id)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +56,12 @@ func (uu *UserUsecase) UpdateUser(f *form.UpdateUserParams) (*form.OutputUser, e
 		ID:   f.ID,
 		Name: f.Name,
 	}
-	result, err := uu.userRepository.Update(user)
+	id, err := uu.userRepository.Update(user)
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := uu.userRepository.FindById(id)
 	if err != nil {
 		return nil, err
 	}
