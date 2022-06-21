@@ -9,14 +9,12 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
-func ListenAndServe(r *gin.Engine) {
+func ListenAndServe(h http.Handler) {
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", 8080),
-		Handler: r,
+		Handler: h,
 	}
 
 	go func() {
