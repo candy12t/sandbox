@@ -62,7 +62,7 @@ response
   "message": "create user is success!!",
   "result": {
     "id": 1,
-    "name: "Mike",
+    "name": "Mike",
     "created_at": "2022-06-16 00:00:00",
     "updated_at": "2022-06-16 00:00:00"
   }
@@ -85,7 +85,7 @@ response
   "message": "update user is success!!",
   "result": {
     "id": 1,
-    "name: "Mike",
+    "name": "Mike",
     "created_at": "2022-06-16 00:00:00",
     "updated_at": "2022-06-17 00:00:00"
   }
