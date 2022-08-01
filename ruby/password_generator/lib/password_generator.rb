@@ -4,7 +4,8 @@ end
 
 module PasswordGenerator
   def self.generate(options)
-    password = PasswordGenerator::Password.new(options).generate
+    length = options.delete(:size)
+    password = PasswordGenerator::Password.new(length, options).generate
     return password
   end
 end

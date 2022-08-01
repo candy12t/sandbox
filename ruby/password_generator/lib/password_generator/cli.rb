@@ -15,7 +15,7 @@ module PasswordGenerator
     option :number,    aliases: '',   type: :boolean, default: true,  desc: ''
     option :symbol,    aliases: '',   type: :boolean, default: false, desc: ''
     def generate
-      $stdout.puts PasswordGenerator::generate(options)
+      $stdout.puts PasswordGenerator::generate(options.dup)
     end
 
   end

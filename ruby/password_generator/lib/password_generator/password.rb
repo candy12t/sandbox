@@ -1,39 +1,19 @@
 module PasswordGenerator
   class Password
 
-    ATTRIBUTES = %w(size number symbol)
+    @@base_chars = ('a'..'z').to_a.join + ('A'..'Z').to_a.join
 
-    def initialize(options = {})
-      ATTRIBUTES.each do |attr|
-        instance_variable_set("@#{attr}", options[attr.to_sym]) if options[attr.to_sym]
-      end
+    def initialize(length, options)
+      @length = length
+      @@base_chars += (0..9).to_a.join if options[:number]
+      @@base_chars += %w(! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { | } ~).join if options[:symbol]
     end
 
     def generate
-      base = base_strings
-      password = @size.times.reduce('') do |result, _|
-        result + base[rand(base.length)].to_s
+      password = @length.times.reduce('') do |result, _|
+        result + @@base_chars[rand(@@base_chars.length)].to_s
       end
       return password
-    end
-
-    private
-
-    def base_strings
-      return @base unless @base.nil?
-
-      @base = ('a'..'z').to_a + ('A'..'Z').to_a
-      @base += (0..9).to_a if number?
-      @base += %w(! " # $ % & ' ( ) * + , - . / : ; < = > ? [ \ ] ^ _ ` { | } ~) if symbol?
-      return @base
-    end
-
-    def number?
-      return @number
-    end
-
-    def symbol?
-      return @symbol
     end
 
   end
