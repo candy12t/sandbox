@@ -11,9 +11,9 @@ module PasswordGenerator
     end
 
     desc 'generate', 'Generate password.'
-    option :size,      aliases: '-s', type: :numeric, default: 18,    desc: 'word size'
-    option :number,    aliases: '',   type: :boolean, default: true,  desc: ''
-    option :symbol,    aliases: '',   type: :boolean, default: false, desc: ''
+    option :length, aliases: '-l', type: :numeric, default: 18,    desc: 'word length'
+    option :number, aliases: '-n', type: :boolean, default: true,  desc: 'include a number'
+    option :symbol, aliases: '-s', type: :boolean, default: false, desc: 'include a symbol'
     def generate
       $stdout.puts PasswordGenerator::generate(options.dup)
     end
