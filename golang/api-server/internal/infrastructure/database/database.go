@@ -11,7 +11,7 @@ func NewDB() (*sql.DB, error) {
 		User:                 "root",
 		Passwd:               "mysql",
 		Net:                  "tcp",
-		Addr:                 "127.0.0.1:3306",
+		Addr:                 "db:3306",
 		DBName:               "api-server",
 		AllowNativePasswords: true,
 		ParseTime:            true,
