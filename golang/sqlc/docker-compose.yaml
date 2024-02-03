@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  db:
+    image: "mysql:5.7"
+    volumes:
+      - sqlc-db-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "sqlc"
+    ports:
+      - 127.0.0.1:33060:3306
+volumes:
+  sqlc-db-data:
