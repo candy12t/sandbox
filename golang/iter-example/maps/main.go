@@ -5,8 +5,8 @@ import (
 	"iter"
 )
 
-func All[V any](m map[string]V) iter.Seq2[string, V] {
-	return func(yield func(string, V) bool) {
+func All[Map ~map[K]V, K comparable, V any](m Map) iter.Seq2[K, V] {
+	return func(yield func(K, V) bool) {
 		for k, v := range m {
 			if !yield(k, v) {
 				return
@@ -15,9 +15,9 @@ func All[V any](m map[string]V) iter.Seq2[string, V] {
 	}
 }
 
-func Keys[V any](seq iter.Seq2[string, V]) iter.Seq[string] {
-	return func(yield func(string) bool) {
-		for k, _ := range seq {
+func Keys[Map ~map[K]V, K comparable, V any](m Map) iter.Seq[K] {
+	return func(yield func(K) bool) {
+		for k, _ := range m {
 			if !yield(k) {
 				return
 			}
@@ -25,9 +25,9 @@ func Keys[V any](seq iter.Seq2[string, V]) iter.Seq[string] {
 	}
 }
 
-func Values[V any](seq iter.Seq2[string, V]) iter.Seq[V] {
+func Values[Map ~map[K]V, K comparable, V any](m Map) iter.Seq[V] {
 	return func(yield func(V) bool) {
-		for _, v := range seq {
+		for _, v := range m {
 			if !yield(v) {
 				return
 			}
@@ -36,15 +36,17 @@ func Values[V any](seq iter.Seq2[string, V]) iter.Seq[V] {
 }
 
 func main() {
-	n := map[string]int{"one": 1, "two": 2, "three": 3}
-	seq := All(n)
-	fmt.Println("keys")
-	for k := range Keys(seq) {
-		fmt.Println(k)
+	ns := map[string]int{"one": 1, "two": 2, "three": 3}
+	fmt.Println("All")
+	for k, v := range All(ns) {
+		fmt.Println(k, v)
 	}
-
-	fmt.Println("values")
-	for v := range Values(seq) {
-		fmt.Println(v)
+	fmt.Println("Keys")
+	for key := range Keys(ns) {
+		fmt.Println(key)
+	}
+	fmt.Println("Values")
+	for value := range Values(ns) {
+		fmt.Println(value)
 	}
 }
